@@ -1,0 +1,10 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - init: npm install
+    command: ts-node src/index.js
+ports:
+  - port: 3000
+    onOpen: open-browser
+  - port: 5900
+    onOpen: ignore
