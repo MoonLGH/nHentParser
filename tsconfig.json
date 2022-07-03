@@ -5,11 +5,9 @@
       "module": "commonjs",
       "sourceMap": true,
     },
-    "include": [
-      "test/**"
-    ]
   },
   "compilerOptions": {
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "esnext",
     "module": "esnext",
@@ -22,7 +20,7 @@
     "strict": true
   },
   "include": [
-    "src"
+    "src","test/*"
   ],
   "exclude": [
     "node_modules","types"
