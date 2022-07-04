@@ -1,7 +1,9 @@
 image:
   file: .gitpod.Dockerfile
 tasks:
-  - init: npm install
+  - init: |
+      npm install
+      npm i ts-node -g
     command: ts-node src/index.js
 ports:
   - port: 3000

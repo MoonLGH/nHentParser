@@ -6,6 +6,7 @@ import {random, getBook} from "../src";
 
 (async () =>{
   const browser = await puppeteer.launch({headless: true});
-  random(browser).then(console.log);
-  getBook(browser, "177013").then(console.log);
+  await random(browser).then(console.log);
+  await getBook(browser, "177013").then(console.log);
+  // await getBook(browser, "something not exist").then(console.log);
 })();
