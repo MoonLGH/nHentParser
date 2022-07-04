@@ -5,7 +5,7 @@ import {bypass} from "../utils/BypassCF";
 
 export async function random(browser: Browser) {
   const bypassRes = await bypass(await browser.newPage(), `${baseUrl+endpoint.random}`);
-  const page = bypassRes.page;
+  const page = bypassRes!.page;
   const url = page.url();
   const result = await g(browser, url);
   return result;
