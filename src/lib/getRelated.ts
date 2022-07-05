@@ -6,7 +6,7 @@ export async function getRelated(browser:Browser, bookID:string|number) {
   const bypassRes = await bypass(await browser.newPage(), `${baseUrl+endpoint.api+endpoint.galleryFull}/${bookID}/related`);
 
   const innerText = await bypassRes!.page.evaluate(() => {
-    return JSON.parse(document.querySelector("*")!.outerHTML);
+    return JSON.parse(document.querySelector("body")!.innerText);
   });
 
   if (innerText.error && innerText.error === "does not exist") {

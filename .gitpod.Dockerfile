@@ -1,4 +1,4 @@
 FROM gitpod/workspace-full-vnc:latest
 
-RUN npx playwright install-deps \
-    && npx playwright install
+RUN npx playwright install-deps
+RUN npm i ts-node -g

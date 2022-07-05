@@ -32,6 +32,19 @@ test("Test 177013", async () => {
   client.close();
 });
 
+test("Test 177013 Related", async () => {
+  const client = new Client(puppeteer);
+  await client.start();
+  try {
+    await client.getRelated("177013");
+    console.log("Sucess 177013 Related");
+  } catch (err) {
+    assert.instance(err, Error);
+    throw new Error("Duh!");
+  }
+  client.close();
+});
+
 test("Test Errors", async () => {
   const client = new Client(puppeteer);
   await client.start();

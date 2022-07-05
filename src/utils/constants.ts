@@ -7,4 +7,6 @@ export const endpoint = {
   tag: "/tag",
   api: "/api",
   galleryFull: "/gallery",
+  artist: "/artist",
+  character: "/character",
 };
