@@ -23,7 +23,8 @@ test("Test 177013", async () => {
   const client = new Client(puppeteer);
   await client.start();
   try {
-    await client.getBook( "177013");
+    await client.getBook("177013");
+    await client.g("177013");
     console.log("Sucess 177013");
   } catch (err) {
     assert.instance(err, Error);
@@ -37,6 +38,7 @@ test("Test 177013 Related", async () => {
   await client.start();
   try {
     await client.getRelated("177013");
+    await client.related("177013");
     console.log("Sucess 177013 Related");
   } catch (err) {
     assert.instance(err, Error);
@@ -44,6 +46,21 @@ test("Test 177013 Related", async () => {
   }
   client.close();
 });
+
+
+test("test search,tag,character,group,homepage", async () => {
+  const client = new Client(puppeteer);
+  await client.start();
+  try {
+    await client.search("sagiri");
+    console.log("Sucess search,tag,character,group,homepage");
+  } catch (err) {
+    assert.instance(err, Error);
+    throw new Error("Duh!");
+  }
+  client.close();
+});
+
 
 test("Test Errors", async () => {
   const client = new Client(puppeteer);
