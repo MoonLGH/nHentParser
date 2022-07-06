@@ -11,6 +11,7 @@ npm install nhentparser puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
 
 ## Example
 
+JS
 ```js
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
@@ -20,19 +21,31 @@ const {Client} = require("nhentparser");
 const client = new Client(puppeteer);
 
 // Get gallery from book ID or book link
-client.g("14045").then((g) => {
-  console.log(g);
-});
-client.g("https://nhentai.net/g/4501").then((g) => {
-  console.log(g);
-});
+client.g("14045").then(console.log);
+client.g("https://nhentai.net/g/4501").then(console.log);
+```
+
+TS/ESM
+```ts
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+puppeteer.use(StealthPlugin());
+
+import {Client} from "nhentparser"
+const client = new Client(puppeteer);
+
+// Get gallery from book ID or book link
+client.g("14045").then(console.log);
+client.g("https://nhentai.net/g/4501").then(console.log);
 ```
 
 ## Results
 
 Full Object interface could be open in [utils/Interface](https://github.com/MoonLGH/nHentParser/blob/main/src/utils/interfaces.ts)
+
 Where "Book" is the Book Interface from g,getBook,random method
-and List is List interface from tag,search,character,artist,related,popular method
+
+and "List" is List interface from tag,search,character,artist,related,popular method
 
 ## API List
 
@@ -53,6 +66,7 @@ return a `Book Object`
 
 **Client.getRelated(ID | Link)**
 - alias `related` 
+
 - `ID | Link` can both `string` or `number`
 
 Get realated book API from book ID or book link  
@@ -66,6 +80,7 @@ return a `List Object`
 
 **Client.getPopularNow()**  
 - alias `popular` 
+
 Get book list from popular section  
 return a `List Object`
 
