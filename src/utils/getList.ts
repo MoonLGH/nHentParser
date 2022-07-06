@@ -2,17 +2,7 @@ import {Browser} from "puppeteer";
 import {load} from "cheerio";
 import {bypass} from "./BypassCF";
 import {parse} from "qs";
-
-export interface Results {
-    id: string,
-    title: string,
-    language: string,
-    thumbnail: {
-      s: string
-      w: number,
-      h: number,
-    }
-}
+import {ListInterface, Result, Language} from "./interfaces";
 
 interface extra {
     [key:string]:number
@@ -30,7 +20,7 @@ export async function getList(browser:Browser, url:string) {
     decodeEntities: false,
   });
 
-  const results:Results[] = [];
+  const results:Result[] = [];
   $(".gallery").each((i, e) => {
     const $this = $(e);
     const id = $this
@@ -52,7 +42,7 @@ export async function getList(browser:Browser, url:string) {
     results.push({
       id: id![0],
       title: title!,
-      language: lang!,
+      language: (lang! as Language),
       thumbnail: {
         s:
                 thumb.attr("data-src") ||
@@ -70,9 +60,10 @@ export async function getList(browser:Browser, url:string) {
   ).attr("href");
   const extra:extra = {};
 
-  extra.numResults = parseInt($("#content>h1").text().replace("results", "").replace(",", ""));
+  extra.numResults = parseInt($("#content>h1").text().match(/\d/g)?.join("") as string);
 
   // if there is no pagination on page, set num_pages to 1
+
   if (!paginationUrl) {
     extra.num_pages = 1;
   } else {
@@ -82,6 +73,6 @@ export async function getList(browser:Browser, url:string) {
   return {
     ...extra,
     results,
-  };
+  } as ListInterface;
 }
 

@@ -9,6 +9,7 @@ import {search} from "./lib/search";
 import {tag} from "./lib/tag";
 import {character} from "./lib/character";
 import {artist} from "./lib/artist";
+
 export class Client {
   pup: PuppeteerExtra;
   pupBrowser?: Browser;
@@ -79,3 +80,5 @@ export class Client {
     throw Error("Client is not initialized");
   }
 }
+
+export * from "./utils/interfaces";
