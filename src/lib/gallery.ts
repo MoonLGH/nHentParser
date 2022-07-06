@@ -5,7 +5,7 @@ import {getBook} from "./getBook";
 export async function g(browser:Browser, query : number|string) {
   if (typeof query == "number") query = query.toString();
   const id = query.includes(baseUrl) ?
-      query.slice(`${baseUrl+endpoint.random}`.length).replace(/\//g, "") :
+      query.slice(`${baseUrl+endpoint.gallery}/`.length).replace(/\//g, "") :
       query;
   return getBook(browser, id);
 }

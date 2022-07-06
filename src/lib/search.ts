@@ -11,5 +11,5 @@ export async function search(browser:Browser, keyword:string, page = 1, popular 
   });
   const url = `${baseUrl+endpoint.search}/?${query}${sort ? `&sort=${sort}` : ""}`;
 
-  return getList(browser, url);
+  return (await getList(browser, url));
 }

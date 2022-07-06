@@ -9,4 +9,6 @@ export const endpoint = {
   galleryFull: "/gallery",
   artist: "/artist",
   character: "/character",
+  parody: "/parody",
+  group: "/group",
 };

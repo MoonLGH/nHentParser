@@ -10,7 +10,7 @@ export async function artist(browser:Browser, keyword:string, page = 1, popular 
   });
   const url = `${baseUrl+endpoint.artist}/${modifyKeyword(keyword)}/${sort}?${query}`;
 
-  return getList(browser, url);
+  return (await getList(browser, url));
 }
 
 function modifyKeyword(keyword:string) {

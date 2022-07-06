@@ -9,6 +9,9 @@ import {search} from "./lib/search";
 import {tag} from "./lib/tag";
 import {character} from "./lib/character";
 import {artist} from "./lib/artist";
+import {parody} from "./lib/parody";
+import {homepage} from "./lib/homepage";
+import {group} from "./lib/group";
 
 export class Client {
   pup: PuppeteerExtra;
@@ -33,7 +36,22 @@ export class Client {
     return getRelated(this.pupBrowser!, BookID);
   }
 
+  async related(BookID:string|number) {
+    this.checkInitialize();
+    return getRelated(this.pupBrowser!, BookID);
+  }
+
+  async homepage(page?:number) {
+    this.checkInitialize();
+    return homepage(this.pupBrowser!, page);
+  }
+
   async getPopularNow() {
+    this.checkInitialize();
+    return getPopularNow(this.pupBrowser!);
+  }
+
+  async popular() {
     this.checkInitialize();
     return getPopularNow(this.pupBrowser!);
   }
@@ -41,6 +59,16 @@ export class Client {
   async character(keyword:string, page?:number, popular?:boolean) {
     this.checkInitialize();
     return character(this.pupBrowser!, keyword, page, popular);
+  }
+
+  async group(keyword:string, page?:number, popular?:boolean) {
+    this.checkInitialize();
+    return group(this.pupBrowser!, keyword, page, popular);
+  }
+
+  async parody(keyword:string, page?:number, popular?:boolean) {
+    this.checkInitialize();
+    return parody(this.pupBrowser!, keyword, page, popular);
   }
 
   async artist(keyword:string, page?:number, popular?:boolean) {

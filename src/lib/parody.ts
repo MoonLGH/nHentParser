@@ -4,12 +4,13 @@ import {baseUrl, endpoint} from "../utils/constants";
 import {getList} from "../utils/getList";
 import {getSort} from "../utils/getSort";
 
-export async function tag(browser:Browser, keyword:string, page = 1, popular = false) {
+export async function parody(browser:Browser, keyword:string, page = 1, popular = false) {
   const sort = getSort(popular);
   const query = stringify({
     page,
   });
-  const url = `${baseUrl+endpoint.tag}/${modifyKeyword(keyword)}/${sort}?${query}`;
+  const url = `${baseUrl+endpoint.parody}/${modifyKeyword(keyword)}/${sort}?${query}`;
+
 
   return (await getList(browser, url));
 }

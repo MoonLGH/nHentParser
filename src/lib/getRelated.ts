@@ -3,6 +3,9 @@ import {bypass} from "../utils/BypassCF";
 import {baseUrl, endpoint} from "../utils/constants";
 
 export async function getRelated(browser:Browser, bookID:string|number) {
+  bookID = `${bookID}`.includes(baseUrl) ?
+  `${bookID}`.slice(`${baseUrl+endpoint.gallery}/`.length).replace(/\//g, "") :
+  `${bookID}`;
   const bypassRes = await bypass(await browser.newPage(), `${baseUrl+endpoint.api+endpoint.galleryFull}/${bookID}/related`);
 
   const innerText = await bypassRes!.page.evaluate(() => {
