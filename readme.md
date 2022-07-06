@@ -6,7 +6,7 @@ Note : This project is only recreation based of [nana-api](https://github.com/ni
 ## Install
 
 ```
-npm install nhentai-parser puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
+npm install nhentparser puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
 ```
 
 ## Example
@@ -16,7 +16,7 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-const {Client} = require("nhentai-parser");
+const {Client} = require("nhentparser");
 const client = new Client(puppeteer);
 
 // Get gallery from book ID or book link
