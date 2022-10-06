@@ -8,7 +8,7 @@ export async function bypass(page:Page, url:string) {
     responseBody = await response!.text();
     responseData = await response!.buffer();
     let tryCount = 0;
-    while ((responseBody.includes("cf-") || responseBody.includes("Sing") || responseBody.includes("Checking your browser") || responseBody.includes("DDoS protection")) && tryCount <= 10) {
+    while ((responseBody.includes("cf-") || responseBody.includes("Ray ID: ") || responseBody.includes("Checking your browser") || responseBody.includes("DDoS protection")) && tryCount <= 10) {
       newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
       if (newResponse) response = newResponse;
       responseBody = await response!.text();
