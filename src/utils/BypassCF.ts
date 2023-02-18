@@ -2,18 +2,22 @@ import {ElementHandle, Page} from "puppeteer";
 import {writeFile} from "fs/promises";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function bypass(page:Page, url:string): Promise<{page: Page, newResponse: any}> {
+export async function bypass(page:Page, url:string): Promise<{page: Page, newResponse: any, responseBody:string, responseData:Buffer}> {
   console.log(url);
   try {
     let newResponse;
     await page.evaluateOnNewDocument(preload, device);
-    await page.goto(url);
-		await page.waitForSelector("#challenge-stage", { visible: true })
+    let response = await page.goto(url);
+    await page.waitForSelector("#challenge-stage", {visible: true});
     const pageData = await page.evaluate(() => {
       return {
         html: document.documentElement.innerHTML,
       };
     });
+
+    let responseBody = await response!.text();
+    let responseData = await response!.buffer();
+
     let tryCount = 0;
     if (pageData.html.includes("hcaptcha")) {
       return await bypass(page, url);
@@ -26,10 +30,13 @@ export async function bypass(page:Page, url:string): Promise<{page: Page, newRes
       }
       await saveCookie(page);
       newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
+      if (newResponse) response = newResponse;
+      responseBody = await response!.text();
+      responseData = await response!.buffer();
       tryCount++;
     }
 
-    return {page, newResponse};
+    return {page, newResponse, responseBody, responseData};
   } catch (error) {
     console.log(error);
     throw Error("Error");
