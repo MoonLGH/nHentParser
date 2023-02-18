@@ -28,6 +28,7 @@ export async function bypass(page:Page, url:string): Promise<{page: Page, newRes
         const button = (await page.$x("/html/body/div[1]/div/div[1]/div/input"))[0] as ElementHandle<Element>;
         await button.click();
       }
+			await page.waitForSelector("#content", { visible: true })
       await saveCookie(page);
       newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
       if (newResponse) response = newResponse;
