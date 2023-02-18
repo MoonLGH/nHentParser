@@ -17,7 +17,7 @@ export class Client {
   pup: PuppeteerExtra;
   pupBrowser?: Browser;
   opt: PuppeteerLaunchOptions;
-  constructor(pups:PuppeteerExtra, options:PuppeteerLaunchOptions={headless: false}) {
+  constructor(pups:PuppeteerExtra, options:PuppeteerLaunchOptions={headless: true}) {
     this.pup = pups;
     this.opt = options;
   }
