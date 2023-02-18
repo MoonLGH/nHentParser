@@ -1,7 +1,8 @@
 # Nhentai Parser
 
 Note : This project is only recreation based of [nana-api](https://github.com/nikkozu/nana-api) using puppeteer
-
+another Note : if you get ip ban = skill issue
+and dont forget this repo is **based**
 
 ## Install
 
@@ -57,31 +58,31 @@ The ID of a doujin can be found can be found at after the `/g/` in the search ba
 
 - `ID | Link` can both `string` or `number`
 
-Get book API from book ID of book Link  
+Get book API from book ID of book Link
 return a `Book Object`
 
-**Client.random()**  
-Get random book API  
+**Client.random()**
+Get random book API
 return a `Book Object`
 
 **Client.getRelated(ID | Link)**
-- alias `related` 
+- alias `related`
 
 - `ID | Link` can both `string` or `number`
 
-Get realated book API from book ID or book link  
+Get realated book API from book ID or book link
 return a `List Object`
 
 **Client.homepage([page])**
 - `page` is `optional` and must be a `number`
 
-Get book list from nHentai homepage  
+Get book list from nHentai homepage
 return a `List Object`
 
-**Client.getPopularNow()**  
-- alias `popular` 
+**Client.getPopularNow()**
+- alias `popular`
 
-Get book list from popular section  
+Get book list from popular section
 return a `List Object`
 
 **Client.search(keyword [, page, popular ])**
@@ -93,17 +94,17 @@ available `string` parameter is: `today`, `all`, and `week`
 Get search list from keyword provided
 return a `List Object`
 
-**Client.tag(keyword [, page, popular ])**  
+**Client.tag(keyword [, page, popular ])**
 Same as `Client.search()`
 
-**Client.artist(keyword [, page, popular ])**  
+**Client.artist(keyword [, page, popular ])**
 Same as `Client.search()`
 
-**Client.character(keyword [, page, popular ])**  
+**Client.character(keyword [, page, popular ])**
 Same as `Client.search()`
 
-**Client.parody(keyword [, page, popular ])**  
+**Client.parody(keyword [, page, popular ])**
 Same as `Client.search()`
 
-**Client.group(keyword [, page, popular ])**  
+**Client.group(keyword [, page, popular ])**
 Same as `Client.search()`

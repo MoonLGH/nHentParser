@@ -8,13 +8,12 @@ export async function bypass(page:Page, url:string): Promise<{page: Page, newRes
     let newResponse;
     await page.evaluateOnNewDocument(preload, device);
     await page.goto(url);
+		await page.waitForSelector("#challenge-stage", { visible: true })
     const pageData = await page.evaluate(() => {
       return {
         html: document.documentElement.innerHTML,
       };
     });
-
-    console.log(pageData.html);
     let tryCount = 0;
     if (pageData.html.includes("hcaptcha")) {
       return await bypass(page, url);
