@@ -9,12 +9,5 @@ puppeteer.use(StealthPlugin());
   const client = new Client(puppeteer);
   await client.start();
   await client.random();
-  await client.getBook("177013");
-  await client.getPopularNow();
-  // await client.artist("shindo l");
-  await client.character("sagiri");
-  await client.search("sagiri");
-  //   await client.getRelated("177013");
-  client.close();
 })();
 

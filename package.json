@@ -56,7 +56,7 @@
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^15.3.0",
     "puppeteer-extra": "^3.3.0",
-    "puppeteer-extra-plugin-stealth": "^2.10.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.1",
     "qs": "^6.11.0"
   }
 }

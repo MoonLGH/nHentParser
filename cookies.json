@@ -1,0 +1,32 @@
+[
+  {
+    "name": "csrftoken",
+    "value": "uIpxATepOIWDleOtrjMhkCgGD7jQ7HQa3eUMFZXqMnqWnFuMAtwOf6ERUcckU9JV",
+    "domain": "nhentai.net",
+    "path": "/",
+    "expires": 1708154616.341468,
+    "size": 73,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "sameSite": "Lax",
+    "sameParty": false,
+    "sourceScheme": "Secure",
+    "sourcePort": 443
+  },
+  {
+    "name": "cf_clearance",
+    "value": "LNdMmqpJG.OasoP4iQ_BuUUWXKT4iLSwZo9_J_XMI0w-1676705015-0-250",
+    "domain": ".nhentai.net",
+    "path": "/",
+    "expires": 1708241015.880276,
+    "size": 72,
+    "httpOnly": true,
+    "secure": true,
+    "session": false,
+    "sameSite": "None",
+    "sameParty": false,
+    "sourceScheme": "Secure",
+    "sourcePort": 443
+  }
+]
