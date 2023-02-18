@@ -1,0 +1,16 @@
+[
+  {
+    "name": "cf_chl_rc_m",
+    "value": "2",
+    "domain": "nhentai.net",
+    "path": "/",
+    "expires": 1676715125,
+    "size": 12,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "sameParty": false,
+    "sourceScheme": "Secure",
+    "sourcePort": 443
+  }
+]

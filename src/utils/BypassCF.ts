@@ -1,36 +1,38 @@
-import {Page} from "puppeteer";
-import puppeteerExtraPluginStealth from 'puppeteer-extra-plugin-stealth';
-import { PuppeteerExtra } from 'puppeteer-extra';
-import { readFile, writeFile, access} from 'fs/promises';
+import {ElementHandle, Page} from "puppeteer";
+import {writeFile} from "fs/promises";
 
-export async function bypass(page:Page, url:string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function bypass(page:Page, url:string): Promise<{page: Page, newResponse: any}> {
+  console.log(url);
   try {
-    let responseBody; let responseData; let newResponse;
+    let newResponse;
     await page.evaluateOnNewDocument(preload, device);
-		await page.goto(url);
-		await delay(10000)
+    await page.goto(url);
     const pageData = await page.evaluate(() => {
       return {
         html: document.documentElement.innerHTML,
       };
     });
+
+    console.log(pageData.html);
     let tryCount = 0;
-    if(pageData.html.includes("hcaptcha")){
-      return await bypass(page,url)
+    if (pageData.html.includes("hcaptcha")) {
+      return await bypass(page, url);
     }
     while ((pageData.html.includes("cf-") || pageData.html.includes("Ray ID: ") || pageData.html.includes("Checking your browser") || pageData.html.includes("DDoS protection")) || pageData.html.includes("hcaptcha") && tryCount <= 10) {
-      await page.waitForXPath('/html/body/div[1]/div/div[1]/div/input')
-			const [button] = await page.$x('/html/body/div[1]/div/div[1]/div/input')
-    	await button.click()
-			await delay(5000)
-			await saveCookie(page)
+      const buttonElement = await page.waitForXPath("/html/body/div[1]/div/div[1]/div/input").catch(() => null);
+      if (buttonElement) {
+        const button = (await page.$x("/html/body/div[1]/div/div[1]/div/input"))[0] as ElementHandle<Element>;
+        await button.click();
+      }
+      await saveCookie(page);
       newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
       tryCount++;
     }
 
-    return {page, newResponse, responseBody, responseData};
+    return {page, newResponse};
   } catch (error) {
-		console.log(error)
+    console.log(error);
     throw Error("Error");
   }
 }
@@ -38,31 +40,9 @@ export async function bypass(page:Page, url:string) {
 const saveCookie = async (page: Page): Promise<void> => {
   const cookies = await page.cookies();
   const cookieJson = JSON.stringify(cookies, null, 2);
-  await writeFile('cookies.json', cookieJson);
+  await writeFile("cookies.json", cookieJson);
 };
 
-async function delay(time: number): Promise<void> {
-  return new Promise<void>(function(resolve) {
-    setTimeout(resolve, time);
-  });
-};
-
-
-const loadCookie = async (page: Page): Promise<void> => {
-	await createFileIfNotExists("cookies.json")
-  const cookieJson = await readFile('cookies.json', 'utf-8');
-  const cookies = JSON.parse(cookieJson);
-	console.log(...cookies)
-  await page.setCookie(...cookies);
-};
-
-async function createFileIfNotExists(filePath: string): Promise<void> {
-  try {
-    await access(filePath);
-  } catch (error) {
-    await writeFile(filePath, '[]');
-  }
-}
 
 function preload(device: {
   platform: string;
@@ -73,23 +53,23 @@ function preload(device: {
     deviceScaleFactor: number;
   };
 }) {
-  Object.defineProperty(navigator, 'platform', {
+  Object.defineProperty(navigator, "platform", {
     value: device.platform,
     writable: true,
   });
-  Object.defineProperty(navigator, 'userAgent', {
+  Object.defineProperty(navigator, "userAgent", {
     value: device.userAgent,
     writable: true,
   });
-  Object.defineProperty(screen, 'height', {
+  Object.defineProperty(screen, "height", {
     value: device.viewport.height,
     writable: true,
   });
-  Object.defineProperty(screen, 'width', {
+  Object.defineProperty(screen, "width", {
     value: device.viewport.width,
     writable: true,
   });
-  Object.defineProperty(window, 'devicePixelRatio', {
+  Object.defineProperty(window, "devicePixelRatio", {
     value: device.viewport.deviceScaleFactor,
     writable: true,
   });
@@ -97,7 +77,7 @@ function preload(device: {
 
 
 const device = {
-  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36 OPR/87.0.4390.58',
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36 OPR/87.0.4390.58",
   viewport: {
     width: 1200,
     height: 800,
@@ -106,6 +86,6 @@ const device = {
     hasTouch: false,
     isLandscape: true,
   },
-  locale: 'en-US,en;q=0.9',
-  platform: 'Macintosh',
+  locale: "en-US,en;q=0.9",
+  platform: "Macintosh",
 };
