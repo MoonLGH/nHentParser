@@ -109,9 +109,3 @@ const device = {
   locale: 'en-US,en;q=0.9',
   platform: 'Macintosh',
 };
-
-async function bypassVerifyHuman(page: string){
-	await page.waitForXPath('/html/body/div[1]/div/div[1]/div/input')
-	const [button] = await page.$x('/html/body/div[1]/div/div[1]/div/input')
-	await button.click()
-}
