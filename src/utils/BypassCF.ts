@@ -1,5 +1,4 @@
-import {ElementHandle, Page} from "puppeteer";
-import {writeFile} from "fs/promises";
+import {Page} from "puppeteer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function bypass(page:Page, url:string): Promise<{page: Page, newResponse: any, responseBody:string, responseData:Buffer}> {
@@ -7,48 +6,47 @@ export async function bypass(page:Page, url:string): Promise<{page: Page, newRes
   try {
     let newResponse;
     await page.evaluateOnNewDocument(preload, device);
-    let response = await page.goto(url);
+    page.setDefaultNavigationTimeout(0);
+    let response = await page.goto(url, {timeout: 0, waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]});
     await page.waitForSelector("#challenge-stage", {visible: true});
     const pageData = await page.evaluate(() => {
       return {
         html: document.documentElement.innerHTML,
       };
     });
-
     let responseBody = await response!.text();
     let responseData = await response!.buffer();
-
     let tryCount = 0;
     if (pageData.html.includes("hcaptcha")) {
       return await bypass(page, url);
     }
     while ((pageData.html.includes("cf-") || pageData.html.includes("Ray ID: ") || pageData.html.includes("Checking your browser") || pageData.html.includes("DDoS protection")) || pageData.html.includes("hcaptcha") && tryCount <= 10) {
       const buttonElement = await page.waitForXPath("/html/body/div[1]/div/div[1]/div/input").catch(() => null);
+      let buttonElements = false;
       if (buttonElement) {
-        const button = (await page.$x("/html/body/div[1]/div/div[1]/div/input"))[0] as ElementHandle<Element>;
-        await button.click();
+        page.click("#challenge-stage > div > input");
+        await page.waitForSelector("body > pre");
+        const element = await page.$("body > pre");
+
+        responseBody = (await page.evaluate((el) => el!.textContent, element) as string);
+        responseData = await response!.buffer();
+        buttonElements = true;
+        return {page, newResponse, responseBody, responseData};
       }
-      await saveCookie(page);
-      newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
-      if (newResponse) response = newResponse;
-      responseBody = await response!.text();
-      responseData = await response!.buffer();
+      if (buttonElements === false) {
+        newResponse = await page.waitForNavigation({timeout: 30000, waitUntil: "domcontentloaded"});
+        if (newResponse) response = newResponse;
+        responseBody = await response!.text();
+        responseData = await response!.buffer();
+      }
       tryCount++;
     }
-
     return {page, newResponse, responseBody, responseData};
   } catch (error) {
     console.log(error);
     throw Error("Error");
   }
 }
-
-const saveCookie = async (page: Page): Promise<void> => {
-  const cookies = await page.cookies();
-  const cookieJson = JSON.stringify(cookies, null, 2);
-  await writeFile("cookies.json", cookieJson);
-};
-
 
 function preload(device: {
   platform: string;
